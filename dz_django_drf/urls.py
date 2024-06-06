@@ -18,7 +18,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from materials.apps import MaterialsConfig
+from users.apps import UsersConfig
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("materials/", include("materials.urls", namespace="materials")),
+    path("materials/", include("materials.urls", namespace=MaterialsConfig.name)),
+    path("user/", include("users.urls", namespace=UsersConfig.name)),
 ]
