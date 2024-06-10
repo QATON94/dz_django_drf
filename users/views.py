@@ -3,12 +3,16 @@ from rest_framework import viewsets, generics
 from rest_framework.filters import OrderingFilter
 
 from users.models import User, Payments
-from users.serializers import UserSerializer, PaymentsSerializer
+from users.serializers import UserSerializer, PaymentsSerializer, HistoryPaySerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return HistoryPaySerializer
+        return UserSerializer
 
 
 class PaymentsListAPIView(generics.ListAPIView):

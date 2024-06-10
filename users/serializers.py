@@ -15,3 +15,12 @@ class PaymentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payments
         fields = "__all__"
+
+
+class HistoryPaySerializer(serializers.ModelSerializer):
+
+    payments = PaymentsSerializer(many=True)
+
+    class Meta:
+        model = User
+        fields = ["email", "payments"]
