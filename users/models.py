@@ -30,7 +30,7 @@ class Payments(models.Model):
     METHOD_PAY = [('card', 'оплата картой'), ('cash', 'наличные')]
 
     user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE, null=True, blank=True)
-    date_paid = models.DateField(auto_now=False, auto_now_add=True)
+    date_paid = models.DateField(auto_now_add=True, blank=True, null=True, verbose_name='дата оплаты')
     paid_course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс', null=True, blank=True)
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='урок', null=True, blank=True)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0)

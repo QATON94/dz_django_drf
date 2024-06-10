@@ -1,4 +1,5 @@
 from rest_framework import viewsets, generics
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 from materials.models import Course, Lesson
 from materials.serializers import LessonSerializer, NumbersLessonsSerializer, \
