@@ -1,0 +1,50 @@
+[
+  {
+    "model": "users.payments",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "date_paid": "2024-06-11",
+      "paid_course": 1,
+      "paid_lesson": 2,
+      "amount_paid": 15000,
+      "payment_method": "card"
+    }
+  },
+  {
+    "model": "users.payments",
+    "pk": 2,
+    "fields": {
+      "user": 1,
+      "date_paid": "2023-12-11",
+      "paid_course": 1,
+      "paid_lesson": 3,
+      "amount_paid": 15000,
+      "payment_method": "card"
+    }
+  },
+  {
+    "model": "users.payments",
+    "pk": 3,
+    "fields": {
+      "user": 1,
+      "date_paid": "2024-02-11",
+      "paid_course": 1,
+      "paid_lesson": 2,
+      "amount_paid": 15000,
+      "payment_method": "cash"
+    }
+  },
+  {
+    "model": "users.payments",
+    "pk": 4,
+    "fields": {
+      "user": 1,
+      "date_paid": "2024-05-12",
+      "paid_course": 3,
+      "paid_lesson": 4,
+      "amount_paid": 25000,
+      "payment_method": "cash"
+    }
+  }
+]
