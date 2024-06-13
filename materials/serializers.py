@@ -30,7 +30,8 @@ class NumbersLessonsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ['name', 'description', 'picture', 'lesson_count']
+        # fields = ['name', 'description', 'picture', 'lesson_count']
+        fields = "__all__"
 
 
 class LessonsInCourseSerializer(serializers.ModelSerializer):
@@ -46,5 +47,3 @@ class LessonsInCourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ['name', 'description', 'lessons', 'lesson_count']
-
-

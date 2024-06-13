@@ -8,8 +8,8 @@ class User(AbstractUser):
     username = None
 
     email = models.EmailField(unique=True, verbose_name="email")
-    phone = models.CharField(max_length=20, unique=True, verbose_name="phone")
-    city = models.CharField(max_length=50, unique=True, verbose_name="city")
+    phone = models.CharField(max_length=20, verbose_name="phone")
+    city = models.CharField(max_length=50, verbose_name="city")
     avatar = models.ImageField(
         upload_to="avatars", default="avatars/default.png", verbose_name="аватар"
     )
