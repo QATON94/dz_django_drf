@@ -1,5 +1,7 @@
 from django.db import models
 
+from dz_django_drf.settings import AUTH_USER_MODEL
+
 
 class Course(models.Model):
     """Описание модели Курс"""
@@ -9,6 +11,8 @@ class Course(models.Model):
         upload_to="course", verbose_name="превью", null=True, blank=True
     )
     description = models.TextField(verbose_name="описание")
+    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                              verbose_name="пользователь")
 
     class Meta:
         verbose_name = "курс"
@@ -27,7 +31,10 @@ class Lesson(models.Model):
         upload_to="lesson", verbose_name="превью", null=True, blank=True
     )
     link = models.CharField(max_length=300, verbose_name="ссылка на видео")
-    course = models.ForeignKey(Course, related_name='lessons', verbose_name="курс", on_delete=models.CASCADE, null=True, blank=True)
+    course = models.ForeignKey(Course, related_name='lessons', verbose_name="курс", on_delete=models.CASCADE, null=True,
+                               blank=True)
+    owner = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                              verbose_name="пользователь")
 
     class Meta:
         verbose_name = "урок"
