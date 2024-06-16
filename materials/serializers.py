@@ -30,7 +30,7 @@ class LessonCreateSerializer(serializers.ModelSerializer):
         validators = [ValidateLink(field='link')]
 
 
-class NumbersLessonsSerializer(serializers.ModelSerializer):
+class CourseAndNumbersLessonsSerializer(serializers.ModelSerializer):
     """Курсы с подсчетом кол-ва уроков"""
 
     lesson_count = serializers.SerializerMethodField()

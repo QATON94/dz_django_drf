@@ -2,18 +2,20 @@ from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 
 from materials.models import Course, Lesson
-from materials.serializers import LessonSerializer, NumbersLessonsSerializer, \
+from materials.paginators import CustomPaginator
+from materials.serializers import LessonSerializer, CourseAndNumbersLessonsSerializer, \
     LessonsInCourseSerializer, LessonCreateSerializer
 from users.permissions import IsModerator, IsOwner
 
 
 class CourseViewSet(viewsets.ModelViewSet):
     queryset = Course.objects.all()
+    pagination_class = CustomPaginator
 
     def get_serializer_class(self):
         if self.action == 'retrieve':
             return LessonsInCourseSerializer
-        return NumbersLessonsSerializer
+        return CourseAndNumbersLessonsSerializer
 
     def perform_create(self, serializer):
         course = serializer.save()
@@ -34,6 +36,7 @@ class CourseViewSet(viewsets.ModelViewSet):
 class LessonListAPIView(generics.ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    pagination_class = CustomPaginator
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
