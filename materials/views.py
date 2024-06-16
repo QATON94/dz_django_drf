@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from materials.models import Course, Lesson
 from materials.serializers import LessonSerializer, NumbersLessonsSerializer, \
-    LessonsInCourseSerializer
+    LessonsInCourseSerializer, LessonCreateSerializer
 from users.permissions import IsModerator, IsOwner
 
 
@@ -37,7 +37,7 @@ class LessonListAPIView(generics.ListAPIView):
 
 
 class LessonCreateAPIView(generics.CreateAPIView):
-    serializer_class = LessonSerializer
+    serializer_class = LessonCreateSerializer
     permission_classes = (~IsModerator, IsAuthenticated,)
 
     def perform_create(self, serializer):
