@@ -35,3 +35,9 @@ class Payments(models.Model):
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='урок', null=True, blank=True)
     amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     payment_method = models.CharField(max_length=30, choices=METHOD_PAY, verbose_name='способ оплаты', )
+
+
+class Subscriptions(models.Model):
+    user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс')
+
