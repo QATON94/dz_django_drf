@@ -33,8 +33,10 @@ class Payments(models.Model):
     date_paid = models.DateField(auto_now_add=True, blank=True, null=True, verbose_name='дата оплаты')
     paid_course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс', null=True, blank=True)
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='урок', null=True, blank=True)
-    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    amount_paid = models.PositiveIntegerField(default=0, verbose_name='платеж')
     payment_method = models.CharField(max_length=30, choices=METHOD_PAY, verbose_name='способ оплаты', )
+    session_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='Id сессии'),
+    link = models.URLField(max_length=400, blank=True, null=True, verbose_name='Ссылка на сессию')
 
 
 class Subscriptions(models.Model):
