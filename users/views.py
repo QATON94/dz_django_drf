@@ -6,7 +6,8 @@ from rest_framework.response import Response
 
 from materials.models import Course
 from users.models import User, Payments, Subscriptions
-from users.serializers import UserSerializer, PaymentsSerializer
+from users.serializers import UserSerializer, PaymentsSerializer, SubscriptionsSerializer
+from users.services import create_stripe_price, create_stripe_sessions
 
 
 class UserCreateAPIView(generics.CreateAPIView):
@@ -30,6 +31,15 @@ class PaymentsListAPIView(generics.ListAPIView):
 
 class PaymentsCreateAPIView(generics.CreateAPIView):
     serializer_class = PaymentsSerializer
+    queryset = Payments.objects.all()
+
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        price = create_stripe_price(payment.amount_paid)
+        session_id, payment_link = create_stripe_sessions(price)
+        payment.session_id = session_id
+        payment.link = payment_link
+        payment.save()
 
 
 class PaymentsRetrieveAPIView(generics.RetrieveAPIView):
@@ -49,6 +59,7 @@ class PaymentsDestroyAPIView(generics.DestroyAPIView):
 class SubscriptionsAPIView(generics.ListAPIView):
     """Добавление подписки"""
 
+    serializer_class = SubscriptionsSerializer
     queryset = Subscriptions.objects.all()
 
     def post(self, request, *args, **kwargs):
