@@ -18,7 +18,6 @@ def create_stripe_price(amount):
 def create_stripe_sessions(price):
     """Создает сессию на оплату в страйпе."""
 
-    print(price)
     session = stripe.checkout.Session.create(
         success_url="http://localhost:8000/",
         line_items=[{"price": price.get("id"), "quantity": 1}],
