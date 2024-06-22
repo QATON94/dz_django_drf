@@ -57,7 +57,7 @@ class PaymentsDestroyAPIView(generics.DestroyAPIView):
 
 
 class SubscriptionsAPIView(generics.ListAPIView):
-    """Добавление подписки"""
+    """Добавление подписки на обновление курсов"""
 
     serializer_class = SubscriptionsSerializer
     queryset = Subscriptions.objects.all()
@@ -72,7 +72,7 @@ class SubscriptionsAPIView(generics.ListAPIView):
             subs_item.delete()
             message = 'подписка удалена'
         else:
-            subs_item = Subscriptions.objects.create(user=user, course=course_item)
+            subs_item = Subscriptions.objects.create(user=user, course=course_item, subs=True)
             subs_item.save()
             message = 'подписка добавлена'
         return Response({'message': message})

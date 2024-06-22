@@ -42,4 +42,3 @@ class Payments(models.Model):
 class Subscriptions(models.Model):
     user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс')
-
