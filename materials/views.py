@@ -1,11 +1,15 @@
 from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 
+from logger import setup_logger
 from materials.models import Course, Lesson
 from materials.paginators import CustomPaginator
 from materials.serializers import LessonSerializer, CourseAndNumbersLessonsSerializer, \
     LessonsInCourseSerializer, LessonCreateSerializer
+from materials.tasks import check_subs
 from users.permissions import IsModerator, IsOwner
+
+logger = setup_logger()
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -29,8 +33,13 @@ class CourseViewSet(viewsets.ModelViewSet):
             self.permission_classes = (IsModerator | IsOwner,)
         elif self.action == 'destroy':
             self.permission_classes = (~IsModerator, IsOwner,)
-
         return super().get_permissions()
+
+    def perform_update(self, serializer):
+        new_course = serializer.save()
+
+        check_subs.delay(new_course.pk)
+        new_course.save()
 
 
 class LessonListAPIView(generics.ListAPIView):
