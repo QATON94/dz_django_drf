@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_yasg",
+    "django_celery_beat",
 
     "users",
     "materials",
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "users.middleware.OnlineNowMiddleware",
 ]
 
 ROOT_URLCONF = "dz_django_drf.urls"
@@ -155,8 +157,11 @@ STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY")
 CELERY_BROKER_URL = os.environ.get('REDIS_LOCATION')
 #
 # # URL-адрес брокера результатов, также Redis
-# CELERY_RESULT_BACKEND = os.environ.get('REDIS_LOCATION')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_LOCATION')
 
+CELERY_TIMEZONE = "Europe/Moscow"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
 
 CACHE_ENABLED = os.environ.get('CACHE_ENABLED', False) == 'True'
 
@@ -172,3 +177,11 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', False) == 'True'
+
+
+CELERY_BEAT_SCHEDULE = {
+    'user-deactivate': {
+        'task': 'users.tasks.user_deactivate',
+        'schedule': timedelta(minutes=1),
+    },
+}

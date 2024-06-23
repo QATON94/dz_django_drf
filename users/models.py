@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
+from django_celery_beat.models import IntervalSchedule
 
 from materials.models import Course, Lesson
 
@@ -13,6 +15,7 @@ class User(AbstractUser):
     avatar = models.ImageField(
         upload_to="avatars", default="avatars/default.png", verbose_name="аватар"
     )
+    last_activity = models.DateField(verbose_name='Дата последней активности', blank=True, null=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
@@ -24,12 +27,17 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
+    @staticmethod
+    def update_user_activity(user):
+        """Обновляет время поля last_activity"""
+        User.objects.filter(id=user.id).update(last_activity=timezone.now())
 
 class Payments(models.Model):
     METHOD_PAY = [('card', 'оплата картой'), ('cash', 'наличные')]
 
     user = models.ForeignKey(User, related_name='payments', verbose_name='пользователь', on_delete=models.CASCADE,
                              null=True, blank=True)
+    is_active = models.BooleanField(default=True)
     date_paid = models.DateField(auto_now_add=True, blank=True, null=True, verbose_name='дата оплаты')
     paid_course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='курс', null=True, blank=True)
     paid_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, verbose_name='урок', null=True, blank=True)
