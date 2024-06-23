@@ -181,6 +181,6 @@ EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', False) == 'True'
 CELERY_BEAT_SCHEDULE = {
     'user-deactivate': {
         'task': 'users.tasks.user_deactivate',
-        'schedule': timedelta(minutes=1),
+        'schedule': timedelta(days=1),
     },
 }
