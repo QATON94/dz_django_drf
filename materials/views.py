@@ -1,7 +1,4 @@
-from requests import Response
 from rest_framework import viewsets, generics
-from rest_framework.decorators import action
-from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 
 from logger import setup_logger
@@ -10,7 +7,6 @@ from materials.paginators import CustomPaginator
 from materials.serializers import LessonSerializer, CourseAndNumbersLessonsSerializer, \
     LessonsInCourseSerializer, LessonCreateSerializer
 from materials.tasks import check_subs
-from users.models import Subscriptions
 from users.permissions import IsModerator, IsOwner
 
 logger = setup_logger()
@@ -38,21 +34,6 @@ class CourseViewSet(viewsets.ModelViewSet):
         elif self.action == 'destroy':
             self.permission_classes = (~IsModerator, IsOwner,)
         return super().get_permissions()
-
-    # @action(detail=False, methods=('put', 'patch',))
-    # def sending_notification(self, request, pk):
-    #     logger.info(f'Sending notification проверка функции')
-    #     a = 10
-    #     b = 10
-    #     check_subs.delay(pk, request, a, b)
-
-    # def update(self, request, *args, **kwargs):
-    #
-    #     user = self.request.user
-    #     course_id = self.request.data['name']
-    #     check_subs.delay(course_id, user)
-    #
-    #     return super().update(request, *args, **kwargs)
 
     def perform_update(self, serializer):
         new_course = serializer.save()

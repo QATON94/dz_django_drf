@@ -178,7 +178,6 @@ EMAIL_HOST = os.environ.get('EMAIL_HOST')
 EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_SSL = os.environ.get('EMAIL_USE_SSL', False) == 'True'
 
-
 CELERY_BEAT_SCHEDULE = {
     'user-deactivate': {
         'task': 'users.tasks.user_deactivate',

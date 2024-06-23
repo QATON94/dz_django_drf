@@ -32,6 +32,7 @@ class User(AbstractUser):
         """Обновляет время поля last_activity"""
         User.objects.filter(id=user.id).update(last_activity=timezone.now())
 
+
 class Payments(models.Model):
     METHOD_PAY = [('card', 'оплата картой'), ('cash', 'наличные')]
 
